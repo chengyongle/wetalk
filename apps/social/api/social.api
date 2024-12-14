@@ -1,22 +1,21 @@
 syntax = "v1"
 
-
 type (
 	Friends {
 		Id        int32  `json:"id,omitempty"`
-        FriendUid string `json:"friend_uid,omitempty"`
-        Nickname  string `json:"nickname,omitempty"`
-        Avatar    string `json:"avatar,omitempty"`
-        Remark    string `json:"remark,omitempty"`
+		FriendUid string `json:"friend_uid,omitempty"`
+		Nickname  string `json:"nickname,omitempty"`
+		Avatar    string `json:"avatar,omitempty"`
+		Remark    string `json:"remark,omitempty"`
 	}
 	FriendRequests {
 		Id           int64  `json:"id,omitempty"`
-        UserId       string `json:"user_id,omitempty"`
-        ReqUid       string `json:"req_uid,omitempty"`
-        ReqMsg       string `json:"req_msg,omitempty"`
-        ReqTime      int64  `json:"req_time,omitempty"`
-        HandleResult int    `json:"handle_result,omitempty"`
-        HandleMsg    string `json:"handle_msg,omitempty"`
+		UserId       string `json:"user_id,omitempty"`
+		ReqUid       string `json:"req_uid,omitempty"`
+		ReqMsg       string `json:"req_msg,omitempty"`
+		ReqTime      int64  `json:"req_time,omitempty"`
+		HandleResult int    `json:"handle_result,omitempty"`
+		HandleMsg    string `json:"handle_msg,omitempty"`
 	}
 	Groups {
 		Id              string `json:"id,omitempty"`
@@ -31,16 +30,16 @@ type (
 		NotificationUid string `json:"notification_uid,omitempty"`
 	}
 	GroupMembers {
-		Id          int32  `json:"id,omitempty"`
-		GroupId     string `json:"group_id,omitempty"`
-		UserId      string `json:"user_id,omitempty"`
+		Id            int32  `json:"id,omitempty"`
+		GroupId       string `json:"group_id,omitempty"`
+		UserId        string `json:"user_id,omitempty"`
 		Nickname      string `json:"nickname,omitempty"`
-        UserAvatarUrl string `json:"user_avatar_url,omitempty"`
-		RoleLevel   int32  `json:"role_level,omitempty"`
-		JoinTime    int64  `json:"join_time,omitempty"`
-		JoinSource  int32  `json:"join_source,omitempty"`
-		InviterUid  string `json:"inviter_uid,omitempty"`
-		OperatorUid string `json:"operator_uid,omitempty"`
+		UserAvatarUrl string `json:"user_avatar_url,omitempty"`
+		RoleLevel     int32  `json:"role_level,omitempty"`
+		JoinTime      int64  `json:"join_time,omitempty"`
+		JoinSource    int32  `json:"join_source,omitempty"`
+		InviterUid    string `json:"inviter_uid,omitempty"`
+		OperatorUid   string `json:"operator_uid,omitempty"`
 	}
 	GroupRequests {
 		Id           int32  `json:"id,omitempty"`
@@ -58,15 +57,15 @@ type (
 
 type (
 	FriendPutInReq {
-		UserId  string `json:"user_id,omitempty"`
-		ReqMsg  string `json:"req_msg,omitempty"`
+		UserId string `json:"user_id,omitempty"`
+		ReqMsg string `json:"req_msg,omitempty"`
 	}
 	FriendPutInResp {
 		Success bool `json:"success,omitempty"`
 	}
 	FriendPutInHandleReq {
-		FriendReqId  int32  `json:"friend_req_id,omitempty"`
-		HandleResult int32  `json:"handle_result,omitempty"` // 处理结果
+		FriendReqId  int32 `json:"friend_req_id,omitempty"`
+		HandleResult int32 `json:"handle_result,omitempty"` // 处理结果
 	}
 	FriendPutInHandleResp {
 		Success bool `json:"success,omitempty"` // 处理是否成功
@@ -90,14 +89,13 @@ type (
 	FriendDeleteResp {
 		Success bool `json:"success,omitempty"` // 删除是否成功
 	}
-	FriendsOnlineReq {}
-
-    FriendsOnlineResp {
-        OnlineList map[string]bool `json:"onLineList"`
-    }
+	FriendsOnlineReq  {}
+	FriendsOnlineResp {
+		OnlineList map[string]bool `json:"onLineList"`
+	}
 	GroupCreateReq {
-		Name       string `json:"name,omitempty"`
-		Icon       string `json:"icon,omitempty"`
+		Name string `json:"name,omitempty"`
+		Icon string `json:"icon,omitempty"`
 	}
 	GroupCreateResp {
 		Id string `json:"id,omitempty"`
@@ -118,14 +116,14 @@ type (
 		List []*GroupRequests `json:"list,omitempty"`
 	}
 	GroupPutInHandleReq {
-		GroupReqId    int32  `json:"group_req_id,omitempty"`
-		GroupId       string `json:"group_id,omitempty"`
-		HandleResult  int32  `json:"handle_result,omitempty"` // 处理结果
+		GroupReqId   int32  `json:"group_req_id,omitempty"`
+		GroupId      string `json:"group_id,omitempty"`
+		HandleResult int32  `json:"handle_result,omitempty"` // 处理结果
 	}
 	GroupPutInHandleResp {
 		GroupId string `json:"group_id,omitempty"`
 	}
-	GroupListReq {}
+	GroupListReq  {}
 	GroupListResp {
 		List []*Groups `json:"list,omitempty"`
 	}
@@ -143,12 +141,11 @@ type (
 		Success bool `json:"success,omitempty"` // 退出是否成功
 	}
 	GroupUserOnlineReq {
-        GroupId string `json:"group_id,omitempty"`
-    }
-
-    GroupUserOnlineResp {
-        OnlineList map[string]bool `json:"onLineList"`
-    }
+		GroupId string `json:"group_id,omitempty"`
+	}
+	GroupUserOnlineResp {
+		OnlineList map[string]bool `json:"onLineList"`
+	}
 )
 
 @server (
@@ -178,8 +175,8 @@ service social {
 	delete /friend (FriendDeleteReq) returns (FriendDeleteResp)
 
 	@doc "好友在线情况"
-    @handler friendsOnline
-    get /friends/online(FriendsOnlineReq) returns(FriendsOnlineResp)
+	@handler friendsOnline
+	get /friends/online (FriendsOnlineReq) returns (FriendsOnlineResp)
 }
 
 @server (
@@ -216,8 +213,8 @@ service social {
 	@handler groupExit
 	delete /group/exit (GroupExitReq) returns (GroupExitResp)
 
-    @doc "群在线用户"
-    @handler groupUserOnline
-    get /group/users/online(GroupUserOnlineReq) returns(GroupUserOnlineResp)
+	@doc "群在线用户"
+	@handler groupUserOnline
+	get /group/users/online (GroupUserOnlineReq) returns (GroupUserOnlineResp)
 }
 

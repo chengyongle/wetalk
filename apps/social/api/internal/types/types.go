@@ -64,6 +64,13 @@ type Friends struct {
 	Remark    string `json:"remark,omitempty"`
 }
 
+type FriendsOnlineReq struct {
+}
+
+type FriendsOnlineResp struct {
+	OnlineList map[string]bool `json:"onLineList"`
+}
+
 type GroupCreateReq struct {
 	Name string `json:"name,omitempty"`
 	Icon string `json:"icon,omitempty"`
@@ -142,6 +149,14 @@ type GroupRequests struct {
 	InviterUid   string `json:"inviter_uid,omitempty"`
 	HandleUid    string `json:"handle_uid,omitempty"`
 	HandleResult int32  `json:"handle_result,omitempty"` // 处理结果
+}
+
+type GroupUserOnlineReq struct {
+	GroupId string `json:"group_id,omitempty"`
+}
+
+type GroupUserOnlineResp struct {
+	OnlineList map[string]bool `json:"onLineList"`
 }
 
 type GroupUsersReq struct {

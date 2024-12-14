@@ -1,6 +1,10 @@
 Name: social
 Host: 0.0.0.0
 Port: 8883
+Redisx:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
 SocialRpc:
   Etcd:
     Hosts:
