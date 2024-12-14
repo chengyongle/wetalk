@@ -1,0 +1,38 @@
+Name: task.mq
+ListenOn: 0.0.0.0:10091
+
+MsgChatTransfer:
+  Name: MsgChatTransfer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: kafka
+  Topic: msgChatTransfer
+  Offset: first
+  Consumers: 1
+MsgReadTransfer:
+  Name: MsgReadTransfer
+  Brokers:
+    - 127.0.0.1:9092
+  Group: kafka
+  Topic: msgReadTransfer
+  Offset: first
+  Consumers: 1
+MsgReadHandler:
+  GroupMsgReadHandler: 1
+  GroupMsgReadRecordDelayTime: 60
+  GroupMsgReadRecordDelayCount: 20
+Redisx:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
+Mongo:
+  Url: "mongodb://root:123456@127.0.0.1:27017"
+  Db: wetalk
+
+SocialRpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: social.rpc
+Ws:
+  Host: 127.0.0.1:10090

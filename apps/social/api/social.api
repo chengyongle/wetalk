@@ -1,0 +1,203 @@
+syntax = "v1"
+
+
+type (
+	Friends {
+		Id        int32  `json:"id,omitempty"`
+        FriendUid string `json:"friend_uid,omitempty"`
+        Nickname  string `json:"nickname,omitempty"`
+        Avatar    string `json:"avatar,omitempty"`
+        Remark    string `json:"remark,omitempty"`
+	}
+	FriendRequests {
+		Id           int64  `json:"id,omitempty"`
+        UserId       string `json:"user_id,omitempty"`
+        ReqUid       string `json:"req_uid,omitempty"`
+        ReqMsg       string `json:"req_msg,omitempty"`
+        ReqTime      int64  `json:"req_time,omitempty"`
+        HandleResult int    `json:"handle_result,omitempty"`
+        HandleMsg    string `json:"handle_msg,omitempty"`
+	}
+	Groups {
+		Id              string `json:"id,omitempty"`
+		Name            string `json:"name,omitempty"`
+		Icon            string `json:"icon,omitempty"`
+		Status          int32  `json:"status,omitempty"`
+		CreatorUid      string `json:"creator_uid,omitempty"`
+		GroupType       int32  `json:"group_type,omitempty"`
+		MemberNum       int64  `json:"member_num,omitempty"`
+		IsVerify        bool   `json:"is_verify,omitempty"`
+		Notification    string `json:"notification,omitempty"` // 公告通知
+		NotificationUid string `json:"notification_uid,omitempty"`
+	}
+	GroupMembers {
+		Id          int32  `json:"id,omitempty"`
+		GroupId     string `json:"group_id,omitempty"`
+		UserId      string `json:"user_id,omitempty"`
+		Nickname      string `json:"nickname,omitempty"`
+        UserAvatarUrl string `json:"user_avatar_url,omitempty"`
+		RoleLevel   int32  `json:"role_level,omitempty"`
+		JoinTime    int64  `json:"join_time,omitempty"`
+		JoinSource  int32  `json:"join_source,omitempty"`
+		InviterUid  string `json:"inviter_uid,omitempty"`
+		OperatorUid string `json:"operator_uid,omitempty"`
+	}
+	GroupRequests {
+		Id           int32  `json:"id,omitempty"`
+		UserId       string `json:"user_id,omitempty"`
+		GroupId      string `json:"group_id,omitempty"`
+		ReqId        string `json:"req_id,omitempty"`
+		ReqMsg       string `json:"req_msg,omitempty"`
+		ReqTime      int64  `json:"req_time,omitempty"`
+		JoinSource   int32  `json:"join_source,omitempty"`
+		InviterUid   string `json:"inviter_uid,omitempty"`
+		HandleUid    string `json:"handle_uid,omitempty"`
+		HandleResult int32  `json:"handle_result,omitempty"` // 处理结果
+	}
+)
+
+type (
+	FriendPutInReq {
+		UserId  string `json:"user_id,omitempty"`
+		ReqMsg  string `json:"req_msg,omitempty"`
+	}
+	FriendPutInResp {
+		Success bool `json:"success,omitempty"`
+	}
+	FriendPutInHandleReq {
+		FriendReqId  int32  `json:"friend_req_id,omitempty"`
+		HandleResult int32  `json:"handle_result,omitempty"` // 处理结果
+	}
+	FriendPutInHandleResp {
+		Success bool `json:"success,omitempty"` // 处理是否成功
+	}
+	FriendPutInListReq {
+		UserId string `json:"user_id,omitempty"`
+	}
+	FriendPutInListResp {
+		List []*FriendRequests `json:"list,omitempty"`
+	}
+	FriendListReq {
+		UserId string `json:"user_id,omitempty"`
+	}
+	FriendListResp {
+		List []*Friends `json:"list,omitempty"`
+	}
+	FriendDeleteReq {
+		UserId    string `json:"user_id,omitempty"` // 用户ID
+		FriendUid string `json:"friend_uid,omitempty"` // 需要删除的好友UID
+	}
+	FriendDeleteResp {
+		Success bool `json:"success,omitempty"` // 删除是否成功
+	}
+	GroupCreateReq {
+		Name       string `json:"name,omitempty"`
+		Icon       string `json:"icon,omitempty"`
+	}
+	GroupCreateResp {
+		Id string `json:"id,omitempty"`
+	}
+	GroupPutinReq {
+		GroupId    string `json:"group_id,omitempty"`
+		ReqMsg     string `json:"req_msg,omitempty"`
+		JoinSource int32  `json:"join_source,omitempty"`
+		InviterUid string `json:"inviter_uid,omitempty"`
+	}
+	GroupPutinResp {
+		GroupId string `json:"group_id,omitempty"`
+	}
+	GroupPutinListReq {
+		GroupId string `json:"group_id,omitempty"`
+	}
+	GroupPutinListResp {
+		List []*GroupRequests `json:"list,omitempty"`
+	}
+	GroupPutInHandleReq {
+		GroupReqId    int32  `json:"group_req_id,omitempty"`
+		GroupId       string `json:"group_id,omitempty"`
+		HandleResult  int32  `json:"handle_result,omitempty"` // 处理结果
+	}
+	GroupPutInHandleResp {
+		GroupId string `json:"group_id,omitempty"`
+	}
+	GroupListReq {}
+	GroupListResp {
+		List []*Groups `json:"list,omitempty"`
+	}
+	GroupUsersReq {
+		GroupId string `json:"group_id,omitempty"`
+	}
+	GroupUsersResp {
+		List []*GroupMembers `json:"list,omitempty"`
+	}
+	GroupExitReq {
+		UserId  string `json:"user_id,omitempty"` // 用户ID
+		GroupId string `json:"group_id,omitempty"` // 群ID
+	}
+	GroupExitResp {
+		Success bool `json:"success,omitempty"` // 退出是否成功
+	}
+)
+
+@server (
+	prefix: v1/social
+	group:  friend
+	jwt:    Auth
+)
+service social {
+	@doc "好友申请"
+	@handler friendPutIn
+	post /friend/putIn (FriendPutInReq) returns (FriendPutInResp)
+
+	@doc "好友申请处理"
+	@handler friendPutInHandle
+	put /friend/putIn (FriendPutInHandleReq) returns (FriendPutInHandleResp)
+
+	@doc "好友申请列表"
+	@handler friendPutInList
+	get /friend/putIns (FriendPutInListReq) returns (FriendPutInListResp)
+
+	@doc "好友列表"
+	@handler friendList
+	get /friends (FriendListReq) returns (FriendListResp)
+
+	@doc "删除好友"
+	@handler friendDelete
+	delete /friend (FriendDeleteReq) returns (FriendDeleteResp)
+}
+
+@server (
+	prefix: v1/social
+	group:  group
+	jwt:    Auth
+)
+service social {
+	@doc "创群"
+	@handler createGroup
+	post /group (GroupCreateReq) returns (GroupCreateResp)
+
+	@doc "申请进群"
+	@handler groupPutin
+	post /group/putIn (GroupPutinReq) returns (GroupPutinResp)
+
+	@doc "申请进群处理"
+	@handler groupPutInHandle
+	put /group/putIn (GroupPutInHandleReq) returns (GroupPutInHandleResp)
+
+	@doc "申请进群列表"
+	@handler groupPutinList
+	get /group/putIns (GroupPutinListReq) returns (GroupPutinListResp)
+
+	@doc "用户群列表"
+	@handler groupList
+	get /groups (GroupListReq) returns (GroupListResp)
+
+	@doc "成员列表"
+	@handler groupUsers
+	get /group/users (GroupUsersReq) returns (GroupUsersResp)
+
+	@doc "退出群"
+	@handler groupExit
+	delete /group/exit (GroupExitReq) returns (GroupExitResp)
+}
+

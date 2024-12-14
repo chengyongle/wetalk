@@ -1,0 +1,12 @@
+Name: social.rpc
+ListenOn: 0.0.0.0:8882
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: social.rpc
+Mysql:
+  DataSource: root:123456@tcp(127.0.0.1:3306)/wetalk?parseTime=true&loc=Local
+Cache:
+  - Host: 127.0.0.1:6379
+    Pass: "123456"
+    Type: node

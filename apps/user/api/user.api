@@ -1,0 +1,81 @@
+syntax = "v1"
+
+type (
+	// 请求与响应模型
+	Request {
+		Ping string `json:"ping"`
+	}
+	Response {
+		Pong string `json:"pong"`
+	}
+	LoginRequest {
+		Phone    string `json:"phone"`
+		Password string `json:"password"`
+	}
+	LoginResponse {
+		Token  string `json:"token"`
+		Expire int64  `json:"expire"`
+	}
+	RegisterRequest {
+		Phone    string `json:"phone"`
+		Nickname string `json:"nickname"`
+		Password string `json:"password"`
+		Avatar   string `json:"avatar"`
+		Sex      int32  `json:"sex"`
+	}
+	RegisterResponse {
+		Token  string `json:"token"`
+		Expire int64  `json:"expire"`
+	}
+	GetUserInfoRequest {
+		Id string `json:"id"`
+	}
+	GetUserInfoResponse {
+		User UserEntity `json:"user"`
+	}
+	FindUserRequest {
+		Name  string   `json:"name"`
+		Phone string   `json:"phone"`
+		Ids   []string `json:"ids"`
+	}
+	FindUserResponse {
+		User []UserEntity `json:"user"`
+	}
+	// 用户实体
+	UserEntity {
+		Id       string `json:"id"`
+		Avatar   string `json:"avatar"`
+		Nickname string `json:"nickname"`
+		Phone    string `json:"phone"`
+		Status   int32  `json:"status"`
+		Sex      int32  `json:"sex"`
+	}
+)
+
+@server (
+	prefix: /v1
+)
+service user {
+	@handler PingHandler
+	post /ping (Request) returns (Response)
+
+	@handler LoginHandler
+	post /login (LoginRequest) returns (LoginResponse)
+
+	@handler RegisterHandler
+	post /register (RegisterRequest) returns (RegisterResponse)
+}
+
+@server (
+	prefix:    /v1/user
+	signature: true
+	jwt:       Auth
+)
+service user {
+	@handler GetUserInfoHandler
+	post /getUserInfo (GetUserInfoRequest) returns (GetUserInfoResponse)
+
+	@handler FindUserHandler
+	post /findUser (FindUserRequest) returns (FindUserResponse)
+}
+
