@@ -1,6 +1,10 @@
 Name: user
 Host: 0.0.0.0
 Port: 8888
+Redisx:
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
 UserRPC:
   Etcd:
     Hosts:

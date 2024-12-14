@@ -90,6 +90,11 @@ type (
 	FriendDeleteResp {
 		Success bool `json:"success,omitempty"` // 删除是否成功
 	}
+	FriendsOnlineReq {}
+
+    FriendsOnlineResp {
+        OnlineList map[string]bool `json:"onLineList"`
+    }
 	GroupCreateReq {
 		Name       string `json:"name,omitempty"`
 		Icon       string `json:"icon,omitempty"`
@@ -137,6 +142,13 @@ type (
 	GroupExitResp {
 		Success bool `json:"success,omitempty"` // 退出是否成功
 	}
+	GroupUserOnlineReq {
+        GroupId string `json:"group_id,omitempty"`
+    }
+
+    GroupUserOnlineResp {
+        OnlineList map[string]bool `json:"onLineList"`
+    }
 )
 
 @server (
@@ -164,6 +176,10 @@ service social {
 	@doc "删除好友"
 	@handler friendDelete
 	delete /friend (FriendDeleteReq) returns (FriendDeleteResp)
+
+	@doc "好友在线情况"
+    @handler friendsOnline
+    get /friends/online(FriendsOnlineReq) returns(FriendsOnlineResp)
 }
 
 @server (
@@ -199,5 +215,9 @@ service social {
 	@doc "退出群"
 	@handler groupExit
 	delete /group/exit (GroupExitReq) returns (GroupExitResp)
+
+    @doc "群在线用户"
+    @handler groupUserOnline
+    get /group/users/online(GroupUserOnlineReq) returns(GroupUserOnlineResp)
 }
 

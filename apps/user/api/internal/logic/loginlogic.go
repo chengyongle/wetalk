@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jinzhu/copier"
 	"wetalk/apps/user/rpc/user"
+	"wetalk/pkg/constants"
 
 	"wetalk/apps/user/api/internal/svc"
 	"wetalk/apps/user/api/internal/types"
@@ -36,6 +37,7 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 
 	var res types.LoginResponse
 	copier.Copy(&res, loginResp)
-
+	//处理登入的业务
+	l.svcCtx.Redis.HsetCtx(l.ctx, constants.REDIS_ONLINE_USER, loginResp.Id, "1")
 	return &res, nil
 }

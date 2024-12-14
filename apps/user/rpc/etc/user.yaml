@@ -11,9 +11,9 @@ Redisx:
   Pass: "123456"
   Type: node
 Cache:
-  - Host: 127.0.0.1:6379
-    Pass: "123456"
-    Type: node
+  Host: 127.0.0.1:6379
+  Pass: "123456"
+  Type: node
 Jwt:
   AccessSecret: wetalkisbest
   AccessExpire: 8640000
