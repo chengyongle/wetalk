@@ -34,7 +34,7 @@ func newGroupMsgRead(push *ws.Push, pushCh chan *ws.Push) *groupMsgRead {
 }
 
 func (m *groupMsgRead) transfer() {
-	// 1，超时发送
+	// 1. 超时发送
 	// 2. 超量发送
 
 	timer := time.NewTimer(GroupMsgReadRecordDelayTime / 2)
