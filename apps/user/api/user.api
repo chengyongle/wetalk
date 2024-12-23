@@ -13,8 +13,9 @@ type (
 		Password string `json:"password"`
 	}
 	LoginResponse {
-		Token  string `json:"token"`
-		Expire int64  `json:"expire"`
+		Token  string     `json:"token"`
+		Expire int64      `json:"expire"`
+		User   UserEntity `json:"user"`
 	}
 	RegisterRequest {
 		Phone    string `json:"phone"`

@@ -34,10 +34,9 @@ func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, 
 	if err != nil {
 		return nil, err
 	}
-
 	var res types.LoginResponse
 	copier.Copy(&res, loginResp)
 	//处理登入的业务
-	l.svcCtx.Redis.HsetCtx(l.ctx, constants.REDIS_ONLINE_USER, loginResp.Id, "1")
+	l.svcCtx.Redis.HsetCtx(l.ctx, constants.REDIS_ONLINE_USER, loginResp.User.Id, "1")
 	return &res, nil
 }

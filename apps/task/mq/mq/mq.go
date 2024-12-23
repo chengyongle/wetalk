@@ -3,6 +3,7 @@ package mq
 import "wetalk/pkg/constants"
 
 type MsgChatTransfer struct {
+	MsgId              string `mapstructure:"msg_id"`
 	ConversationId     string `json:"conversationId"`
 	constants.ChatType `json:"chatType"`
 	SendId             string   `json:"sendId"`

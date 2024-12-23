@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"wetalk/pkg/interceptor"
 	"wetalk/pkg/interceptor/rpcserver"
 
 	"wetalk/apps/social/rpc/internal/config"
@@ -34,6 +35,7 @@ func main() {
 		}
 	})
 	s.AddUnaryInterceptors(rpcserver.LogInterceptor)
+	s.AddUnaryInterceptors(interceptor.NewIdempotenceServer(interceptor.NewDefaultIdempotent(c.Cache[0].RedisConf)))
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"fmt"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest/token"
@@ -27,7 +26,6 @@ func NewJwtAuth(svc *svc.ServiceContext) *JwtAuth {
 
 func (j *JwtAuth) Auth(w http.ResponseWriter, r *http.Request) bool {
 	if token := r.Header.Get("sec-websocket-protocol"); token != "" {
-		fmt.Printf("sec-websocket-protocol token: %s\n", token)
 		r.Header.Set("Authorization", token)
 	}
 

@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"fmt"
+	"github.com/jinzhu/copier"
 	"time"
 	"wetalk/apps/user/models"
 	"wetalk/apps/user/rpc/internal/code"
@@ -51,9 +53,12 @@ func (l *LoginLogic) Login(in *user.LoginReq) (*user.LoginResp, error) {
 		logx.Errorf("ctxdata get jwt token err %v", err)
 		return nil, err
 	}
-
+	var u user.UserEntity
+	//复制响应结构体
+	copier.Copy(&u, userEntity)
+	fmt.Println(userEntity)
 	return &user.LoginResp{
-		Id:     userEntity.Id,
+		User:   &u,
 		Token:  token,
 		Expire: now + l.svcCtx.Config.Jwt.AccessExpire,
 	}, nil

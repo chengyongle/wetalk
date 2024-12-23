@@ -29,9 +29,9 @@ message LoginReq {
 }
 
 message LoginResp {
-  string Token = 1;
-  int64 expire = 2;
-  string id =3;
+  UserEntity user = 1;
+  string Token = 2;
+  int64 expire = 3;
 }
 
 message RegisterReq{
