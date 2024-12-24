@@ -15,6 +15,7 @@ import (
 type ServiceContext struct {
 	Config                config.Config
 	IdempotenceMiddleware rest.Middleware
+	LimitMiddleware       rest.Middleware
 	*redis.Redis
 	socialclient.Social
 	userclient.User
@@ -26,6 +27,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Config:                c,
 		Redis:                 redis.MustNewRedis(c.Redisx),
 		IdempotenceMiddleware: middleware.NewIdempotenceMiddleware().Handler,
+		LimitMiddleware:       middleware.NewLimitMiddleware(c.Redisx).TokenLimitHandler(1, 100),
 		Social: socialclient.NewSocial(zrpc.MustNewClient(c.SocialRpc,
 			zrpc.WithUnaryClientInterceptor(interceptor.DefaultIdempotentClient),
 		)),

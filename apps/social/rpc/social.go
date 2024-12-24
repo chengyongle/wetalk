@@ -3,13 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"wetalk/pkg/interceptor"
-	"wetalk/pkg/interceptor/rpcserver"
-
 	"wetalk/apps/social/rpc/internal/config"
 	"wetalk/apps/social/rpc/internal/server"
 	"wetalk/apps/social/rpc/internal/svc"
 	"wetalk/apps/social/rpc/social"
+	"wetalk/pkg/interceptor"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -34,7 +32,7 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
-	s.AddUnaryInterceptors(rpcserver.LogInterceptor)
+	//s.AddUnaryInterceptors(rpcserver.LogInterceptor, rpcserver.SyncxLimitInterceptor(10))
 	s.AddUnaryInterceptors(interceptor.NewIdempotenceServer(interceptor.NewDefaultIdempotent(c.Cache[0].RedisConf)))
 	defer s.Stop()
 
