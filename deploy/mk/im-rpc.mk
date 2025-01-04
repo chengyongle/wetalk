@@ -1,6 +1,6 @@
 VERSION=latest
 
-SERVER_NAME=user
+SERVER_NAME=im
 SERVER_TYPE=rpc
 
 # 环境配置
